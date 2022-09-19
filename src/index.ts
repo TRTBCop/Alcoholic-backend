@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { router } from './routes/route';
+import db from './firebase/__init__';
+
 
 const app = express();
 app.use(bodyParser.json())
@@ -18,3 +20,4 @@ app.listen(port, () => {
 
 // 주소에 따른 사용할 라우터 지정
 app.use('/api/', router)
+
