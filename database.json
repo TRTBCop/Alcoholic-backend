@@ -1,7 +1,0 @@
-{
-    "host": "localhost",
-    "user": "root",
-    "password": "qaz741!@",
-    "port": "3306",
-    "database": "test_schema"
-}
