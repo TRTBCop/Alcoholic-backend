@@ -1,6 +1,6 @@
 import router from './instance';
 
 import './auth';
-import './alcoholHistory';
+import './alcHistory';
 
 export { router }
