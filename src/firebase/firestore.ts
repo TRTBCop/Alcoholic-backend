@@ -1,4 +1,4 @@
-import db from "./__init__";
+import { db } from "./__init__";
 import { collection, addDoc, doc, getDoc, setDoc, updateDoc, serverTimestamp, arrayUnion, arrayRemove, getDocs, query, where, WhereFilterOp, FieldPath, deleteDoc, deleteField } from "firebase/firestore";
 
 
