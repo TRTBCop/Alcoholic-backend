@@ -1,0 +1,142 @@
+################################ 로그인 관련 ################################
+/api/auth/join:
+  post:
+    tags:
+      - auth
+    summary: 회원가입
+    requestBody:
+      required: true
+      content:
+        application/json:                
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    responses:
+      200:
+        description: 성공
+        content:
+          application/json:
+            example:
+              data:
+                code: 200,
+                message: "회원가입 성공"
+                data:
+                  uid: sdvasdvasdvsadvasdv
+                  email: "hkgb0009@gmail.com"
+                  token: sdvasdvasdvsadvasdv
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+/api/auth/login:
+  post:
+    tags: 
+      - auth
+    summary: 로그인             
+    requestBody:
+      description: 로그인시 uid, email 리턴
+      required: true
+      content:
+        application/json:                
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    responses:
+      200:
+        description: 성공
+        content:
+          application/json:
+            example:
+              data:
+                code: 200,
+                message: "로그인 성공"
+                data:
+                  uid: sdvasdvasdvsadvasdv
+                  email: "hkgb0009@gmail.com"
+                  token: sdvasdvasdvsadvasdv
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+/api/auth/token:
+  post:
+    tags:
+      - auth
+    security:
+      - AccessToken: []
+    summary: 토큰 유효성 검사
+    responses:
+      200:
+        description: 토큰 인증 성공
+        content:
+          application/json:
+            example:
+              data:
+                code: 200,
+                message: "토큰 인증 성공"
+                data:
+                  uid: sdvasdvasdvsadvasdv
+                  email: "hkgb0009@gmail.com"
+                  token: sdvasdvasdvsadvasdv
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+################################ Alcohol History ################################
+/api/alc-history:
+  get:
+    tags:
+      - alc-history
+    summary: 알코올 히스토리 목록 불러옴
+    responses:
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+  post:
+    tags:
+      - alc-history
+    summary: 알코올 히스토리 생성
+    responses:
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+  put:
+    tags:
+      - alc-history
+    summary: 알코올 히스토리 수정
+    responses:
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+  delete:
+    tags:
+      - alc-history
+    summary: 알코올 히스토리 삭제
+    responses:
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+/api/alc-history/{id}:  
+  get:
+    tags:
+      - alc-history
+    summary: 알코올 히스토리 상세 불러옴
+    responses:
+      400:
+        $ref: '../openapi.yaml#/components/responses/BadRequest'
+      401:
+        $ref: '../openapi.yaml#/components/responses/Unauthorized'

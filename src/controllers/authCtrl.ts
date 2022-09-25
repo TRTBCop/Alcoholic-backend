@@ -1,6 +1,7 @@
 import { authService, admin } from "../firebase/__init__";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { UserInfo } from "../models/auth";
+import { ResultCode } from "../types/resultCode";
 
 const authCtrl = {
     /**     
@@ -11,31 +12,38 @@ const authCtrl = {
         try {
             const email = req.body.email;
             const password = req.body.password;
-            const data = await createUserWithEmailAndPassword(authService, email, password);
+            const data: any = await createUserWithEmailAndPassword(authService, email, password);
 
-            res.json({ code: 200, message: 'createUser', data: data });
+            const userInfo: UserInfo = {
+                uid: data.user.uid,
+                email: data.user.email as string,
+                token: data._tokenResponse.idToken,
+            }
+
+            res.json({ code: ResultCode.Success, message: '회원가입 성공', data: userInfo });
         } catch (err: any) {
-            if (err.customData._tokenResponse.error.code === 400) {
-                res.json({ code: 400, message: '이미 존재하는 계정입니다.', data: null });
+            if (err.customData._tokenResponse.error.code === ResultCode.BadRequest) {
+                res.status(ResultCode.BadRequest).json({ code: ResultCode.BadRequest, message: '이미 존재하는 계정입니다.', data: null });
             } else {
-                res.json({ code: err.customData._tokenResponse.error.code, message: err.customData._tokenResponse.error.message, data: null });
+                res.status(err.customData._tokenResponse.error.code).json({ code: err.customData._tokenResponse.error.code, message: err.customData._tokenResponse.error.message, data: null });
             }
         }
     },
 
     async loginUser(req: any, res: any) {
         try {
-            const email = 'hkgb0009@gmail.com';
-            const password = 'qaz741!@';
+            const email = req.body.email;
+            const password = req.body.password;
 
-            const data = await signInWithEmailAndPassword(authService, email, password);
-            res.json({ code: 200, message: 'createUser', data: data });
-        } catch (err: any) {
-            if (err.customData._tokenResponse.error.code === 400) {
-                res.json({ code: 400, message: '이미 존재하는 계정입니다.', data: null });
-            } else {
-                res.json({ code: err.customData._tokenResponse.error.code, message: err.customData._tokenResponse.error.message, data: null });
+            const data: any = await signInWithEmailAndPassword(authService, email, password);
+            const userInfo: UserInfo = {
+                uid: data.user.uid,
+                email: data.user.email as string,
+                token: data._tokenResponse.idToken,
             }
+            res.json({ code: ResultCode.Success, message: '로그인 성공', data: userInfo });
+        } catch (err: any) {
+            res.status(ResultCode.BadRequest).json({ code: ResultCode.BadRequest, message: `로그인 에러: ${err.code}`, data: err });
         }
     },
 
@@ -46,13 +54,14 @@ const authCtrl = {
                 const userInfo: UserInfo = {
                     uid: data.uid,
                     email: data.email,
+                    token: req.headers['access-token'],
                 }
-                res.json({ code: 200, message: '토큰 인증 성공', data: userInfo });
+                res.json({ code: ResultCode.Success, message: '토큰 인증 성공', data: userInfo });
             } else {
-                res.json({ code: 400, message: '헤더에 토큰 값이 존재하지 않습니다.', data: null });
+                res.status(ResultCode.BadRequest).json({ code: ResultCode.BadRequest, message: '헤더에 토큰 값이 존재하지 않습니다.', data: null });
             }
         } catch (err: any) {
-            res.json({ code: err.code, message: '토큰 값이 유효하지 않지 않습니다.', data: err });
+            res.status(ResultCode.Unauthorized).json({ code: ResultCode.Unauthorized, message: '토큰 값이 유효하지 않습니다.', data: err });
         }
     },
 }
