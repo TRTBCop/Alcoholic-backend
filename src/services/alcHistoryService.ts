@@ -1,12 +1,8 @@
-import { async } from "@firebase/util";
 import {
-  addData,
   deleteData,
-  getAllData,
-  getData,
   getWhere,
   setData,
-  updateNumColumn,
+  updateData,
 } from "../firebase/firestore";
 import { AlcHistoryDaysDrink, AlcHistoryFormData } from "../models/alcHistory";
 import { v4 } from "uuid";
@@ -35,14 +31,36 @@ export const createAlcHistory = async (
   value: AlcHistoryFormData
 ): Promise<boolean> => {
   try {
-    const newAlcHistory = {
+    const itemId = uuid();
+    const newAlcHistory: AlcHistoryDaysDrink = {
       uid,
+      id: itemId,
       write_date: `${value.writeDateYear}-${value.writeDateMonth}-${value.writeDateDay}`,
       alcohol_list: value.alcoholList,
       memo: value.memo,
     };
-    console.log(newAlcHistory);
-    await setData(AH_TABLE, uuid(), newAlcHistory);
+    await setData(AH_TABLE, itemId, newAlcHistory);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
+export const updateAlcHistory = async (
+  uid: string,
+  itemId: string,
+  value: AlcHistoryFormData
+): Promise<boolean> => {
+  try {
+    const newAlcHistory: AlcHistoryDaysDrink = {
+      uid,
+      id: itemId,
+      write_date: `${value.writeDateYear}-${value.writeDateMonth}-${value.writeDateDay}`,
+      alcohol_list: value.alcoholList,
+      memo: value.memo,
+    };
+    await updateData(AH_TABLE, itemId, newAlcHistory);
     return true;
   } catch (err) {
     console.log(err);

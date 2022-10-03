@@ -152,6 +152,45 @@
     tags:
       - alc-history
     summary: 알코올 히스토리 수정
+    requestBody:
+      description: 알코올 히스토리 수정
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - id
+              - data
+            properties:
+              id:
+                type: string
+              data:
+                type: object
+                properties:
+                  alcoholList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        alcohol_image:
+                          type: string
+                        alcohol_intake:
+                          type: number
+                        alcohol_name:
+                          type: string
+                        alcohol_type:
+                          type: string
+                        drunked:
+                          type: number
+                  writeDateYear:
+                    type: string
+                  writeDateMonth:
+                    type: string
+                  writeDateDay:
+                    type: string
+                  memo:
+                    type: string
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"
