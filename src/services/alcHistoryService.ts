@@ -1,5 +1,6 @@
 import {
   deleteData,
+  getData,
   getWhere,
   setData,
   updateData,
@@ -24,6 +25,15 @@ export const fetchAlcHistory = async (
     uid
   )) as AlcHistoryDaysDrink[];
   return data;
+};
+
+export const fetchAlcHistoryDetail = async (id: string): Promise<any> => {
+  try {
+    const data = (await getData(AH_TABLE, id)) as AlcHistoryDaysDrink[];
+    return data;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const createAlcHistory = async (

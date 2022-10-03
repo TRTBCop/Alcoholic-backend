@@ -222,6 +222,13 @@
     tags:
       - alc-history
     summary: 알코올 히스토리 상세 불러옴
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: Alcohol History 아이템 id
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"

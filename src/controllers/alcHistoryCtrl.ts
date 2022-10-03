@@ -3,6 +3,7 @@ import {
   createAlcHistory,
   deleteAlcHistory,
   fetchAlcHistory,
+  fetchAlcHistoryDetail,
   updateAlcHistory,
 } from "../services/alcHistoryService";
 import { checkToken } from "../services/authService";
@@ -27,12 +28,39 @@ const alcHistoryCtrl = {
     }
   },
   async getAlcHistoryDetail(req: any, res: any) {
-    const data = null;
-    res.json({
-      code: ResultCode.Success,
-      message: "getAlcHistoryDetail",
-      data: data,
-    });
+    const userInfo = await checkToken(req, res);
+    if (userInfo?.uid === undefined) {
+      res.status(ResultCode.Unauthorized).json({
+        code: ResultCode.Unauthorized,
+        message: "로그인이 되어있지 않습니다.",
+        data: null,
+      });
+    } else {
+      try {
+        const itemId = req.params.id;
+        const result = await fetchAlcHistoryDetail(itemId);
+        if (result) {
+          res.json({
+            code: ResultCode.Success,
+            message: "[AH] 상세 불러오기에 성공했습니다",
+            data: result,
+          });
+        } else {
+          res.json({
+            code: ResultCode.BadRequest,
+            message: "파이어 베이스 오류",
+            data: result,
+          });
+        }
+      } catch (err) {
+        console.log(err);
+        res.json({
+          code: ResultCode.BadRequest,
+          message: "파이어베이스 오류",
+          data: null,
+        });
+      }
+    }
   },
   async updateAlcHistory(req: any, res: any) {
     const userInfo = await checkToken(req, res);
