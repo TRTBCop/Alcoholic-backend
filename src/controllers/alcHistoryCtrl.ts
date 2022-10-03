@@ -19,7 +19,7 @@ const alcHistoryCtrl = {
       const data = await fetchAlcHistory(userInfo.uid);
       res.json({
         code: ResultCode.Success,
-        message: "getAlcHistory List Data",
+        message: "[AH] 목록 불러오기에 성공했습니다",
         data: data,
       });
     }
@@ -67,7 +67,7 @@ const alcHistoryCtrl = {
           if (result) {
             res.json({
               code: ResultCode.Success,
-              message: "정상적으로 성공하였습니다.",
+              message: "[AH] 글 작성에 정상적으로 성공하였습니다.",
               data: result,
             });
           } else {

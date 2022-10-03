@@ -4,6 +4,7 @@ import {
   deleteData,
   getAllData,
   getData,
+  getWhere,
   setData,
   updateNumColumn,
 } from "../firebase/firestore";
@@ -20,7 +21,12 @@ const AH_TABLE = "alcohol_history";
 export const fetchAlcHistory = async (
   uid: string
 ): Promise<AlcHistoryDaysDrink[]> => {
-  const data = (await getData(AH_TABLE, uid)) as AlcHistoryDaysDrink[];
+  const data = (await getWhere(
+    AH_TABLE,
+    "uid",
+    "==",
+    uid
+  )) as AlcHistoryDaysDrink[];
   return data;
 };
 
@@ -29,14 +35,14 @@ export const createAlcHistory = async (
   value: AlcHistoryFormData
 ): Promise<boolean> => {
   try {
-    const newAlcHistory: AlcHistoryDaysDrink = {
-      id: uuid(),
+    const newAlcHistory = {
+      uid,
       write_date: `${value.writeDateYear}-${value.writeDateMonth}-${value.writeDateDay}`,
       alcohol_list: value.alcoholList,
       memo: value.memo,
     };
     console.log(newAlcHistory);
-    await setData(AH_TABLE, uid, newAlcHistory);
+    await setData(AH_TABLE, uuid(), newAlcHistory);
     return true;
   } catch (err) {
     console.log(err);
