@@ -49,3 +49,13 @@ export const createAlcHistory = async (
     return false;
   }
 };
+
+export const deleteAlcHistory = async (id: string): Promise<boolean> => {
+  try {
+    await deleteData(AH_TABLE, id);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};

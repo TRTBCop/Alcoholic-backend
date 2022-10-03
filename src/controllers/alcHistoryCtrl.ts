@@ -1,6 +1,7 @@
 import { AlcHistoryFormData } from "../models/alcHistory";
 import {
   createAlcHistory,
+  deleteAlcHistory,
   fetchAlcHistory,
 } from "../services/alcHistoryService";
 import { checkToken } from "../services/authService";
@@ -89,12 +90,42 @@ const alcHistoryCtrl = {
     }
   },
   async deleteAlcHistory(req: any, res: any) {
-    const data = null;
-    res.json({
-      code: ResultCode.Success,
-      message: "deleteAlcHistory",
-      data: data,
-    });
+    const userInfo = await checkToken(req, res);
+    if (!userInfo) {
+      res.status(ResultCode.Unauthorized).json({
+        code: ResultCode.Unauthorized,
+        message: "로그인이 되어있지 않습니다.",
+        data: null,
+      });
+    } else {
+      try {
+        const itemId = req.body.id;
+        if (!itemId) {
+          res.json({
+            code: ResultCode.BadRequest,
+            message: "파라미터가 잘 못 되었습니다.",
+            data: null,
+          });
+        } else {
+          const result = await deleteAlcHistory(itemId);
+          if (result) {
+            res.json({
+              code: ResultCode.Success,
+              message: "[AH] 삭제에 성공하였습니다.",
+              data: result,
+            });
+          } else {
+            res.json({
+              code: ResultCode.BadRequest,
+              message: "[AH] 삭제에 실패하였습니다.",
+              data: result,
+            });
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
 };
 

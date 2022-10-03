@@ -161,6 +161,18 @@
     tags:
       - alc-history
     summary: 알코올 히스토리 삭제
+    requestBody:
+      description: 알코올 히스토리 삭제
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"
