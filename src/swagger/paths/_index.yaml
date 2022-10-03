@@ -7,7 +7,7 @@
     requestBody:
       required: true
       content:
-        application/json:                
+        application/json:
           schema:
             type: object
             required:
@@ -32,17 +32,17 @@
                   email: "hkgb0009@gmail.com"
                   token: sdvasdvasdvsadvasdv
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
 /api/auth/login:
   post:
-    tags: 
+    tags:
       - auth
-    summary: 로그인             
+    summary: 로그인
     requestBody:
       description: 로그인시 uid, email 리턴
       required: true
       content:
-        application/json:                
+        application/json:
           schema:
             type: object
             required:
@@ -67,7 +67,7 @@
                   email: "hkgb0009@gmail.com"
                   token: sdvasdvasdvsadvasdv
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
 /api/auth/token:
   post:
     tags:
@@ -89,9 +89,9 @@
                   email: "hkgb0009@gmail.com"
                   token: sdvasdvasdvsadvasdv
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
 ################################ Alcohol History ################################
 /api/alc-history:
   get:
@@ -100,43 +100,79 @@
     summary: 알코올 히스토리 목록 불러옴
     responses:
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
   post:
     tags:
       - alc-history
     summary: 알코올 히스토리 생성
+    requestBody:
+      description: 알코올 히스토리 생성
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                type: object
+                properties:
+                  alcoholList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        alcohol_image:
+                          type: string
+                        alcohol_intake:
+                          type: number
+                        alcohol_name:
+                          type: string
+                        alcohol_type:
+                          type: string
+                        drunked:
+                          type: number
+                  writeDateYear:
+                    type: string
+                  writeDateMonth:
+                    type: string
+                  writeDateDay:
+                    type: string
+                  memo:
+                    type: string
     responses:
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
   put:
     tags:
       - alc-history
     summary: 알코올 히스토리 수정
     responses:
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
   delete:
     tags:
       - alc-history
     summary: 알코올 히스토리 삭제
     responses:
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
-/api/alc-history/{id}:  
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
+/api/alc-history/{id}:
   get:
     tags:
       - alc-history
     summary: 알코올 히스토리 상세 불러옴
     responses:
       400:
-        $ref: '../openapi.yaml#/components/responses/BadRequest'
+        $ref: "../openapi.yaml#/components/responses/BadRequest"
       401:
-        $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        $ref: "../openapi.yaml#/components/responses/Unauthorized"
