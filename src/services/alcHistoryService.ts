@@ -7,6 +7,19 @@ import {
 } from "../firebase/firestore";
 import { AlcHistoryDaysDrink, AlcHistoryFormData } from "../models/alcHistory";
 import { v4 } from "uuid";
+import {
+  query,
+  orderBy,
+  collection,
+  getDocs,
+  where,
+  limit,
+  startAfter,
+  Query,
+  DocumentData,
+} from "firebase/firestore";
+import { db } from "../firebase/__init__";
+
 const uuid = (): string => {
   const tokens = v4().split("-");
   return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
@@ -16,15 +29,49 @@ const AH_TABLE = "alcohol_history";
 
 /** 리스트 데이터 추출 */
 export const fetchAlcHistory = async (
-  uid: string
+  uid: string,
+  page: string
 ): Promise<AlcHistoryDaysDrink[]> => {
-  const data = (await getWhere(
-    AH_TABLE,
-    "uid",
-    "==",
-    uid
-  )) as AlcHistoryDaysDrink[];
-  return data;
+  const perPage = 10;
+
+  let q: Query<DocumentData>;
+
+  if (page === "1") {
+    q = query(
+      collection(db, AH_TABLE),
+      where("uid", "==", uid),
+      orderBy("write_date", "desc"),
+      limit(perPage)
+    );
+  } else {
+    const first = query(
+      collection(db, AH_TABLE),
+      where("uid", "==", uid),
+      orderBy("write_date", "desc"),
+      limit(perPage * (Number(page) - 1))
+    );
+    const documentSnapshots = await getDocs(first);
+
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+    q = query(
+      collection(db, AH_TABLE),
+      where("uid", "==", uid),
+      orderBy("write_date", "desc"),
+      startAfter(lastVisible),
+      limit(perPage)
+    );
+  }
+
+  const result: AlcHistoryDaysDrink[] = [];
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    result.push(doc.data() as AlcHistoryDaysDrink);
+  });
+
+  return result;
 };
 
 export const fetchAlcHistoryDetail = async (id: string): Promise<any> => {

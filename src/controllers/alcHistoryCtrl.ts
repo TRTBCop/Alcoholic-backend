@@ -19,11 +19,13 @@ const alcHistoryCtrl = {
         data: null,
       });
     } else {
-      const data = await fetchAlcHistory(userInfo.uid);
+      const data = await fetchAlcHistory(userInfo.uid, req.query.page);
       res.json({
-        code: ResultCode.Success,
-        message: "[AH] 목록 불러오기에 성공했습니다",
-        data: data,
+        data: {
+          code: ResultCode.Success,
+          message: "[AH] 목록 불러오기에 성공했습니다",
+          data: data,
+        },
       });
     }
   },
@@ -41,23 +43,29 @@ const alcHistoryCtrl = {
         const result = await fetchAlcHistoryDetail(itemId);
         if (result) {
           res.json({
-            code: ResultCode.Success,
-            message: "[AH] 상세 불러오기에 성공했습니다",
-            data: result,
+            data: {
+              code: ResultCode.Success,
+              message: "[AH] 상세 불러오기에 성공했습니다",
+              data: result,
+            },
           });
         } else {
           res.json({
-            code: ResultCode.BadRequest,
-            message: "파이어 베이스 오류",
-            data: result,
+            data: {
+              code: ResultCode.BadRequest,
+              message: "파이어 베이스 오류",
+              data: result,
+            },
           });
         }
       } catch (err) {
         console.log(err);
         res.json({
-          code: ResultCode.BadRequest,
-          message: "파이어베이스 오류",
-          data: null,
+          data: {
+            code: ResultCode.BadRequest,
+            message: "파이어베이스 오류",
+            data: null,
+          },
         });
       }
     }
@@ -77,23 +85,29 @@ const alcHistoryCtrl = {
         const result = await updateAlcHistory(userInfo.uid, itemId, newData);
         if (result) {
           res.json({
-            code: ResultCode.Success,
-            message: "[AH] 글 수정에 정상적으로 성공하였습니다.",
-            data: result,
+            data: {
+              code: ResultCode.Success,
+              message: "[AH] 글 수정에 정상적으로 성공하였습니다.",
+              data: result,
+            },
           });
         } else {
           res.json({
-            code: ResultCode.BadRequest,
-            message: "파이어베이스 오류",
-            data: result,
+            data: {
+              code: ResultCode.BadRequest,
+              message: "파이어베이스 오류",
+              data: result,
+            },
           });
         }
       } catch (err) {
         console.log(err);
         res.json({
-          code: ResultCode.BadRequest,
-          message: "파이어베이스 오류",
-          data: null,
+          data: {
+            code: ResultCode.BadRequest,
+            message: "파이어베이스 오류",
+            data: null,
+          },
         });
       }
     }
@@ -102,9 +116,11 @@ const alcHistoryCtrl = {
     const userInfo = await checkToken(req, res);
     if (!userInfo) {
       res.status(ResultCode.Unauthorized).json({
-        code: ResultCode.Unauthorized,
-        message: "로그인이 되어있지 않습니다.",
-        data: null,
+        data: {
+          code: ResultCode.Unauthorized,
+          message: "로그인이 되어있지 않습니다.",
+          data: null,
+        },
       });
     } else {
       const newData: AlcHistoryFormData = req.body.data;
@@ -112,23 +128,29 @@ const alcHistoryCtrl = {
         const result = await createAlcHistory(userInfo.uid, newData);
         if (result) {
           res.json({
-            code: ResultCode.Success,
-            message: "[AH] 글 작성에 정상적으로 성공하였습니다.",
-            data: result,
+            data: {
+              code: ResultCode.Success,
+              message: "[AH] 글 작성에 정상적으로 성공하였습니다.",
+              data: result,
+            },
           });
         } else {
           res.json({
-            code: ResultCode.BadRequest,
-            message: "파이어베이스 오류",
-            data: result,
+            data: {
+              code: ResultCode.BadRequest,
+              message: "파이어베이스 오류",
+              data: result,
+            },
           });
         }
       } catch (err) {
         console.log(err);
         res.json({
-          code: ResultCode.BadRequest,
-          message: "파이어베이스 오류",
-          data: null,
+          data: {
+            code: ResultCode.BadRequest,
+            message: "파이어베이스 오류",
+            data: null,
+          },
         });
       }
     }
@@ -146,23 +168,29 @@ const alcHistoryCtrl = {
         const itemId = req.body.id;
         if (!itemId) {
           res.json({
-            code: ResultCode.BadRequest,
-            message: "파라미터가 잘 못 되었습니다.",
-            data: null,
+            data: {
+              code: ResultCode.BadRequest,
+              message: "파라미터가 잘 못 되었습니다.",
+              data: null,
+            },
           });
         } else {
           const result = await deleteAlcHistory(itemId);
           if (result) {
             res.json({
-              code: ResultCode.Success,
-              message: "[AH] 삭제에 성공하였습니다.",
-              data: result,
+              data: {
+                code: ResultCode.Success,
+                message: "[AH] 삭제에 성공하였습니다.",
+                data: result,
+              },
             });
           } else {
             res.json({
-              code: ResultCode.BadRequest,
-              message: "[AH] 삭제에 실패하였습니다.",
-              data: result,
+              data: {
+                code: ResultCode.BadRequest,
+                message: "[AH] 삭제에 실패하였습니다.",
+                data: result,
+              },
             });
           }
         }

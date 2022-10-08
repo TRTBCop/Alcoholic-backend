@@ -98,6 +98,13 @@
     tags:
       - alc-history
     summary: 알코올 히스토리 목록 불러옴
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: string
+        required: true
+        description: 페이지
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"

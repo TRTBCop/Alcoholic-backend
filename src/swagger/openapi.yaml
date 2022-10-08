@@ -21,7 +21,7 @@ tags:
   - name: alc-recipe
     description: 알코올 레시피
 paths:
-  $ref: './paths/_index.yaml'
+  $ref: "./paths/_index.yaml"
 components:
   parameters: null
   responses:
@@ -31,22 +31,24 @@ components:
         application/json:
           example:
             data:
-              code: 400
-              message: 잘못된 요청
-              data: null
+              data:
+                code: 400
+                message: 잘못된 요청
+                data: null
     Unauthorized:
       description: 토큰 값이 유효하지 않습니다.
       content:
         application/json:
           example:
             data:
-              code: 401
-              message: 토큰 값이 유효하지 않습니다.
-              data: null
+              data:
+                code: 401
+                message: 토큰 값이 유효하지 않습니다.
+                data: null
   securitySchemes:
     AccessToken:
       type: apiKey
       in: header
-      name: access-token 
+      name: access-token
 security:
   - AccessToken: []
