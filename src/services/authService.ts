@@ -13,7 +13,7 @@ export const checkToken = async (
   res: any
 ): Promise<UserInfo | null> => {
   try {
-    const { data } = await instance.post<BaseApiResult<UserInfo>>(
+    const { data }: any = await instance.post(
       "/api/auth/token",
       {},
       {
@@ -22,8 +22,8 @@ export const checkToken = async (
         },
       }
     );
-    if (data.code === 200) {
-      return data.data;
+    if (data.data.code === 200) {
+      return data.data.data;
     } else {
       return null;
     }

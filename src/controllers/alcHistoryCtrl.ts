@@ -79,8 +79,8 @@ const alcHistoryCtrl = {
         data: null,
       });
     } else {
-      const itemId = req.body.id;
-      const newData: AlcHistoryFormData = req.body.data;
+      const itemId = req.body.params.id;
+      const newData: AlcHistoryFormData = req.body.params.data;
       try {
         const result = await updateAlcHistory(userInfo.uid, itemId, newData);
         if (result) {
@@ -123,7 +123,7 @@ const alcHistoryCtrl = {
         },
       });
     } else {
-      const newData: AlcHistoryFormData = req.body.data;
+      const newData: AlcHistoryFormData = req.body.params.data;
       try {
         const result = await createAlcHistory(userInfo.uid, newData);
         if (result) {
@@ -165,7 +165,7 @@ const alcHistoryCtrl = {
       });
     } else {
       try {
-        const itemId = req.body.id;
+        const itemId = req.query.id;
         if (!itemId) {
           res.json({
             data: {

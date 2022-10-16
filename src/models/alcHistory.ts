@@ -14,6 +14,7 @@ export interface AlcHistoryDrunked {
   drunked: number;
   alcohol_intake: number;
   alcohol_image: string;
+  alcohol_degree: number;
 }
 
 export interface AlcHistoryFormData {

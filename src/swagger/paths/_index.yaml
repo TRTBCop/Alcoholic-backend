@@ -122,34 +122,39 @@
           schema:
             type: object
             required:
-              - data
+              - params
             properties:
-              data:
+              params:
                 type: object
                 properties:
-                  alcoholList:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        alcohol_image:
-                          type: string
-                        alcohol_intake:
-                          type: number
-                        alcohol_name:
-                          type: string
-                        alcohol_type:
-                          type: string
-                        drunked:
-                          type: number
-                  writeDateYear:
-                    type: string
-                  writeDateMonth:
-                    type: string
-                  writeDateDay:
-                    type: string
-                  memo:
-                    type: string
+                  data:
+                    type: object
+                    properties:
+                      alcoholList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            alcohol_image:
+                              type: string
+                            alcohol_intake:
+                              type: number
+                            alcohol_degree:
+                              type: number
+                            alcohol_name:
+                              type: string
+                            alcohol_type:
+                              type: string
+                            drunked:
+                              type: number
+                      writeDateYear:
+                        type: string
+                      writeDateMonth:
+                        type: string
+                      writeDateDay:
+                        type: string
+                      memo:
+                        type: string
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"
@@ -167,37 +172,41 @@
           schema:
             type: object
             required:
-              - id
-              - data
+              - params
             properties:
-              id:
-                type: string
-              data:
+              params:
                 type: object
                 properties:
-                  alcoholList:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        alcohol_image:
-                          type: string
-                        alcohol_intake:
-                          type: number
-                        alcohol_name:
-                          type: string
-                        alcohol_type:
-                          type: string
-                        drunked:
-                          type: number
-                  writeDateYear:
+                  id:
                     type: string
-                  writeDateMonth:
-                    type: string
-                  writeDateDay:
-                    type: string
-                  memo:
-                    type: string
+                  data:
+                    type: object
+                    properties:
+                      alcoholList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            alcohol_image:
+                              type: string
+                            alcohol_intake:
+                              type: number
+                            alcohol_degree:
+                              type: number
+                            alcohol_name:
+                              type: string
+                            alcohol_type:
+                              type: string
+                            drunked:
+                              type: number
+                      writeDateYear:
+                        type: string
+                      writeDateMonth:
+                        type: string
+                      writeDateDay:
+                        type: string
+                      memo:
+                        type: string
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"
@@ -207,18 +216,13 @@
     tags:
       - alc-history
     summary: 알코올 히스토리 삭제
-    requestBody:
-      description: 알코올 히스토리 삭제
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - id
-            properties:
-              id:
-                type: string
+    parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+        required: true
+        description: 글 아이디
     responses:
       400:
         $ref: "../openapi.yaml#/components/responses/BadRequest"
